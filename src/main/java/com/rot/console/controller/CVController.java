@@ -13,7 +13,7 @@ import reactor.core.publisher.Mono;
 @RestController
 public class CVController {
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "${allowed.origin}")
     @GetMapping("/download-cv")
     public Mono<ResponseEntity<Resource>> downloadCV() {
         return Mono.fromSupplier(() -> {
