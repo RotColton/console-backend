@@ -11,7 +11,7 @@ COPY . .
 RUN mvn clean package -DskipTests
 
 # Usa una imagen base de Java para ejecutar la aplicación
-FROM openjdk:23-jdk-alpine
+FROM openjdk:23-jdk
 
 # Establece el directorio de trabajo en la imagen de ejecución
 WORKDIR /app
