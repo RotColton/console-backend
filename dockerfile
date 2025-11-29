@@ -1,5 +1,5 @@
 # Usa una imagen base de Maven para compilar el proyecto
-FROM maven:3.8.4-openjdk-17 AS build
+FROM maven:3.8.4-openjdk-23 AS build
 
 # Establece el directorio de trabajo dentro del contenedor
 WORKDIR /app
@@ -11,7 +11,7 @@ COPY . .
 RUN mvn clean package -DskipTests
 
 # Usa una imagen base de Java para ejecutar la aplicación
-FROM openjdk:17-jdk-alpine
+FROM openjdk:23-jdk-alpine
 
 # Establece el directorio de trabajo en la imagen de ejecución
 WORKDIR /app
