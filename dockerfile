@@ -1,15 +1,10 @@
-# Usa una imagen base de Java
-FROM openjdk:17-jdk-slim
-
-# Establece el directorio de trabajo dentro del contenedor
+FROM maven:3.9.6-eclipse-temurin-21 AS build
 WORKDIR /app
+COPY . .
+RUN mvn -q -e -DskipTests package
 
-# Copia el archivo JAR generado a la imagen del contenedor
-COPY target/console-0.0.1-SNAPSHOT.jar app.jar
-
-# Expone el puerto en el que correrá la aplicación
+FROM eclipse-temurin:21-jre-jammy
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
-
-# Comando para ejecutar la aplicación
-ENTRYPOINT ["java", "-jar", "app.jar"]
-
+ENTRYPOINT ["java", "-XX:MaxRAMPercentage=75.0", "-jar", "app.jar"]
