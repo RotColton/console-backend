@@ -8,20 +8,24 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import reactor.core.publisher.Mono;
 
 @RestController
 public class CVController {
 
     @CrossOrigin(origins = "${allowed.origin}")
     @GetMapping("/download-cv")
-    public Mono<ResponseEntity<Resource>> downloadCV() {
-        return Mono.fromSupplier(() -> {
-            Resource resource = new ClassPathResource("files/resume.pdf");
+    public ResponseEntity<Resource> downloadCV() {
+        try {
+            Resource resource = new ClassPathResource("resources/files/resume.pdf");
+
             return ResponseEntity.ok()
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"resume.pdf\"")
                     .contentType(MediaType.APPLICATION_PDF)
+                    .contentLength(resource.contentLength())
                     .body(resource);
-        });
+
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
     }
 }
