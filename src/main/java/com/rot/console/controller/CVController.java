@@ -16,7 +16,7 @@ public class CVController {
     @GetMapping("/download-cv")
     public ResponseEntity<Resource> downloadCV() {
         try {
-            Resource resource = new ClassPathResource("files/resume.pdf");
+            Resource resource = new ClassPathResource("files/RominaDomingo-CV.pdf");
 
             return ResponseEntity.ok()
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"resume.pdf\"")
